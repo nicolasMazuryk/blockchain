@@ -1,0 +1,6 @@
+mnemonics.json
+public_keys.json
+
+node_modules/
+
+.idea/
