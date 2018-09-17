@@ -1,5 +1,11 @@
 module.exports = {
-  "nodes": [
+  server: {
+    name: 'blockchain',
+    port: 5000,
+    host: 'localhost',
+  },
+  network: 'main',
+  nodes: [
     {
       "host": "electrum.festivaldelhumor.org",
       "port": 50002
@@ -12,5 +18,5 @@ module.exports = {
       "host": "electrum.qtornado.com",
       "port": 50002
     }
-  ]
+  ],
 };

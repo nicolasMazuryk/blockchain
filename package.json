@@ -9,7 +9,13 @@
   "license": "ISC",
   "dependencies": {
     "bcoin": "^1.0.2",
+    "body-parser": "^1.18.3",
     "buffer-reverse": "^1.0.1",
-    "electrum-client": "0.0.6"
+    "bunyan": "^1.8.12",
+    "cors": "^2.8.4",
+    "electrum-client": "0.0.6",
+    "ethereumjs-util": "^5.2.0",
+    "express": "^4.16.3",
+    "keccak": "^1.4.0"
   }
 }
