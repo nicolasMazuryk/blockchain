@@ -1,16 +1,25 @@
 import Base from './base';
 
 export default class Endpoints extends Base {
-  generateKeys() {
-    return this.apiClient.get(`generateKeys`);
+  generateKeys(coin) {
+    return this.apiClient.get(`/keygen/${coin}`);
   }
-  generateAddress(index) {
-    return this.apiClient.post(`address`, index);
+  listKeys(coin) {
+    return this.apiClient.get(`/keygen/list/${coin}`);
   }
-  getBalance(address) {
-    return this.apiClient.get(`/balance/${address}`);
+  listAddress(coin) {
+    return this.apiClient.get(`address/${coin}`);
   }
-  getInputs(address) {
-    return this.apiClient.get(`/inputs/${address}`);
+  generateAddress(coin) {
+    return this.apiClient.post(`address/${coin}`);
+  }
+  getBalance(coin) {
+    return this.apiClient.get(`/balance/${coin}`);
+  }
+  getInputs(coin, address) {
+    return this.apiClient.get(`/inputs/${coin}/${address}`);
+  }
+  getForwarder() {
+    return this.apiClient.get(`/forwarder`);
   }
 }

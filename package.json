@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon ./server/index.js",
+    "migrate": "rm -rf ./build && npx truffle migrate"
   },
   "license": "ISC",
   "dependencies": {
     "bcoin": "^1.0.2",
+    "bignumber.js": "^7.2.1",
     "body-parser": "^1.18.3",
     "buffer-reverse": "^1.0.1",
     "bunyan": "^1.8.12",
@@ -16,6 +18,10 @@
     "electrum-client": "0.0.6",
     "ethereumjs-util": "^5.2.0",
     "express": "^4.16.3",
-    "keccak": "^1.4.0"
+    "keccak": "^1.4.0",
+    "nodemon": "^1.18.4",
+    "truffle": "^4.1.14",
+    "truffle-contract": "^3.0.6",
+    "web3": "^0.20.7"
   }
 }

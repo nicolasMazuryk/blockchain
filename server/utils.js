@@ -3,11 +3,10 @@ const path = require('path');
 const createKeccakHash = require('keccak');
 const { promisify } = require('util');
 
-const rootDir = path.resolve(__dirname, '..');
+const root = path.resolve(__dirname, '..');
 
 const writeFileAsync = promisify(fs.writeFile);
 const readFileAsync = promisify(fs.readFile);
-
 
 function toChecksumAddress(address) {
   address = address.toLowerCase().replace('0x', '');
@@ -26,7 +25,7 @@ function toChecksumAddress(address) {
 }
 
 module.exports = {
-  rootDir,
+  root,
   readFileAsync,
   writeFileAsync,
   toChecksumAddress,

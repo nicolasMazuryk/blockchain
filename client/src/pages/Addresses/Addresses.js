@@ -1,37 +1,85 @@
 import React, { Component } from 'react';
 import api from '../../api';
-import { Button, Table } from 'antd';
-import { Link } from 'react-router-dom';
+import { Button, Table, Tabs, Badge } from 'antd';
 
 import './Addresses.css';
+import { COINS } from "../../constants";
 
-import { ROUTES } from "../../routes";
+const TabPane = Tabs.TabPane;
 
 const { Column } = Table;
 
 class Addresses extends Component {
   state = {
-    index: 0,
+    balance: '',
     addresses: [],
+    coin: COINS.BTC,
   };
+
+  componentDidMount() {
+    const { coin } = this.state;
+    this.getAddresses(coin)
+    this.getBalance(coin)
+  }
+
+  getAddresses(coin) {
+    api.endpoints.listAddress(coin).then(addresses => {
+      this.setState({
+        addresses,
+      });
+    });
+  }
+
+  getBalance(coin) {
+    api.endpoints.getBalance(coin).then(balance => {
+      this.setState({
+        balance,
+      });
+    });
+  }
+
   generateAddress = () => {
-    const { index, addresses } = this.state;
-    api.endpoints.generateAddress({ index: addresses.length })
+    const { addresses, coin } = this.state;
+    api.endpoints.generateAddress(coin)
         .then(response => {
           this.setState({
-            index: response.index,
             addresses: addresses.concat([response]),
-          })
+          });
         })
   };
 
-  renderAddress = address => {
+  onTabChange = coin => {
+    console.log(coin);
+    this.setState({ coin });
+    this.getAddresses(coin)
+    this.getBalance(coin)
+  };
+
+  renderAddresses = addresses => {
+    return addresses.map(address => <span className="address-text">{address}</span>);
+  };
+
+  renderContent = () => {
+    const { addresses } = this.state;
     return (
-      <Link to={`${ROUTES.ADDRESSES.path}/${address}`}>{address}</Link>
-    );
+      <Table
+          rowKey={record => record.index}
+          dataSource={addresses}
+          indentSize={5}
+          pagination={false}
+      >
+        <Column title="Index" dataIndex="index" />
+        <Column
+            title="Addresses"
+            dataIndex="addresses"
+            render={this.renderAddresses}
+        />
+      </Table>
+    )
   };
 
   render() {
+    const { balance } = this.state;
     return (
         <div>
           <Button
@@ -41,30 +89,14 @@ class Addresses extends Component {
           >
             Generate Address
           </Button>
-
-          <Table
-              rowKey={record => record.index}
-              dataSource={this.state.addresses}
-              indentSize={5}
-              pagination={false}
-          >
-            <Column title="Index" dataIndex="index" />
-            <Column
-                title="Old Address"
-                dataIndex="oldAddress"
-                render={this.renderAddress}
-            />
-            <Column
-                title="Address"
-                dataIndex="address"
-                render={this.renderAddress}
-            />
-            <Column
-                title="Nested Address"
-                dataIndex="nestedAddress"
-                render={this.renderAddress}
-            />
-          </Table>
+          <div className="balance">
+            <span>Balance: </span>
+            <code>{balance}</code>
+          </div>
+          <Tabs defaultActiveKey="1" onChange={this.onTabChange}>
+            {Object.keys(COINS).map(coin => <TabPane tab={coin} key={coin} />)}
+          </Tabs>
+          {this.renderContent()}
         </div>
     )
   }

@@ -1,22 +1,18 @@
-const bcoin = require('bcoin');
-const crypto = require('crypto');
-const reverse = require('buffer-reverse');
-const Electrum = require('../../../electrumx');
-const { Output } = bcoin.primitives;
-
+const Address = require('../../libs/address');
+const db = require('../../db');
 
 async function Balance(req, res) {
-  const address = req.params.address;
-  const output = Output.fromScript(address, 10000);
-  const rawScript = output.script.toRaw();
+  const { coin } = req.params;
 
-  let scriptHash = crypto.createHash('sha256').update(rawScript).digest();
-  scriptHash = reverse(scriptHash).toString('hex');
+  const stored = await db[coin].address.get();
 
-  const utxos = await Electrum.getUtxos(scriptHash);
-  const balance = utxos.reduce((acc, tx) => acc + tx.value, 0);
+  const addresses = stored.reduce((acc, { addresses }) => acc.concat(addresses), []);
 
-  return res.json({ balance });
+  const balances = await Promise.all(addresses.map(Address[`getBalance${coin}`]));
+
+  const balance = balances.reduce((acc, balance) => acc + +balance, 0);
+
+  return res.json(balance);
 }
 
 module.exports = Balance;

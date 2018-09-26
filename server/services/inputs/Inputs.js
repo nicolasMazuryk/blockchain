@@ -1,32 +1,14 @@
-const bcoin = require('bcoin');
-const crypto = require('crypto');
-const reverse = require('buffer-reverse');
-const Electrum = require('../../../electrumx');
-const { Output } = bcoin.primitives;
-
+const TX = require('../../libs/transaction');
+const db = require('../../db');
 
 async function Inputs(req, res) {
-  const address = req.params.address;
-  const output = Output.fromScript(address, 10000);
-  const rawScript = output.script.toRaw();
+  const { coin, address } = req.params;
 
-  let scriptHash = crypto.createHash('sha256').update(rawScript).digest();
-  scriptHash = reverse(scriptHash).toString('hex');
+  const inputs = await TX[`getInputs${coin}`](address);
 
-  const utxos = await Electrum.getUtxos(scriptHash);
+  await db[coin].inputs.set(inputs);
 
-  const inputs = [];
-  for (const utxo of utxos) {
-    const rawTx = await Electrum.getTX(utxo.tx_hash);
-    inputs.push({
-      rawTx,
-      ...utxo,
-      address,
-      index: utxo.tx_pos,
-    })
-  }
-
-  return res.json({ inputs });
+  return res.json(inputs);
 }
 
 module.exports = Inputs;

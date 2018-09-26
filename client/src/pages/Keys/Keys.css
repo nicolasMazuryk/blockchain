@@ -1,0 +1,13 @@
+.addresses-button {
+  margin: 0  0 20px;
+}
+
+.address-text {
+  color: rgba(0,0,0, 0.6);
+  font-size: 15px;
+  margin: 0 25px 0;
+}
+
+.list-item {
+  margin: 0 0 15px;
+}

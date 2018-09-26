@@ -19,7 +19,7 @@ const readFileAsync = promisify(fs.readFile);
 
 const network = 'main';
 
-const rootDir = __dirname;
+const root = __dirname;
 
 const phrase1 = 'affair client someone wave squeeze survey cook tunnel peace mule speak exist mixed grow whip rival jeans dynamic tongue force sure round merit similar';
 
@@ -39,7 +39,7 @@ class KeyGen {
   }
 
   static async getAddress(index) {
-    const publicKeysJSON = await readFileAsync(`${rootDir}/public_keys.json`, 'utf8');
+    const publicKeysJSON = await readFileAsync(`${root}/public_keys.json`, 'utf8');
     const publicKeys = JSON.parse(publicKeysJSON);
     const keys = publicKeys.map(key => HDPublicKey.fromBase58(key, network).derive(index).toPublic().publicKey);
 
@@ -52,7 +52,7 @@ class KeyGen {
   }
 
   static async getSegwitAddress(index) {
-    const publicKeysJSON = await readFileAsync(`${rootDir}/public_keys.json`, 'utf8');
+    const publicKeysJSON = await readFileAsync(`${root}/public_keys.json`, 'utf8');
     const publicKeys = JSON.parse(publicKeysJSON);
     const keyRings = publicKeys.map(key => {
       const publicKey = HDPublicKey.fromBase58(key, network).derive(index).toPublic().publicKey;

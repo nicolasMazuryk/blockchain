@@ -22,7 +22,7 @@ function runner() {
   const { host, port } = config.server;
 
   server.listen(port, host, () => {
-    logger.info('ExpressServer', { addr: `${host}:${port}` });
+    logger.info('Express Server:', `${host}:${port}`);
   });
 }
 
