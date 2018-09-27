@@ -35,6 +35,6 @@ module.exports = {
     publicKey: store('pub_keys_ETH'),
     address: store('address_ETH'),
     inputs: store('inputs_ETH'),
-    forwarder: store('forwarder_ETH'),
+    initial: store('initial_ETH'),
   },
 };

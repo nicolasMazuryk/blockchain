@@ -43,8 +43,8 @@ class Keys extends Component {
 
   renderContent = () => {
     const { keys } = this.state;
-    return keys.map(pubkeys => (
-        <div className="list-item">
+    return keys.map((pubkeys, index) => (
+        <div key={index} className="list-item">
           <List
               header={<div>Public Keys</div>}
               bordered

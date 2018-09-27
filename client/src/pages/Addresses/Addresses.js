@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from '../../api';
-import { Button, Table, Tabs, Badge } from 'antd';
+import { Button, Table, Tabs } from 'antd';
 
 import './Addresses.css';
 import { COINS } from "../../constants";
@@ -43,7 +43,7 @@ class Addresses extends Component {
     api.endpoints.generateAddress(coin)
         .then(response => {
           this.setState({
-            addresses: addresses.concat([response]),
+            addresses: addresses.concat(response),
           });
         })
   };
@@ -55,25 +55,17 @@ class Addresses extends Component {
     this.getBalance(coin)
   };
 
-  renderAddresses = addresses => {
-    return addresses.map(address => <span className="address-text">{address}</span>);
-  };
-
   renderContent = () => {
     const { addresses } = this.state;
     return (
       <Table
-          rowKey={record => record.index}
+          rowKey={record => addresses.indexOf(record)}
           dataSource={addresses}
           indentSize={5}
           pagination={false}
       >
         <Column title="Index" dataIndex="index" />
-        <Column
-            title="Addresses"
-            dataIndex="addresses"
-            render={this.renderAddresses}
-        />
+        <Column title="Addresses" dataIndex="address" />
       </Table>
     )
   };

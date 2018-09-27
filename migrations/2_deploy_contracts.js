@@ -1,8 +1,8 @@
 const MultisigWallet = artifacts.require("WalletSimple");
-const addressesETH = require('../database/address_ETH.json');
+const addressesETH = require('../database/initial_ETH.json');
 
-const addresses = addressesETH[0].addresses;
+const addresses = addressesETH.filter(a => a.index === 0);
 
 module.exports = function(deployer) {
-  deployer.deploy(MultisigWallet, addresses);
+  deployer.deploy(MultisigWallet, addresses.map(a => a.address));
 };

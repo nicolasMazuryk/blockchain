@@ -2,12 +2,13 @@ import React from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import Addresses from './pages/Addresses/Addresses';
-import Address from './pages/Address/Address';
+import Inputs from './pages/Inputs/Inputs';
 import Keys from './pages/Keys/Keys';
 
 export const ROUTES = {
     KEYS: { path: '/keys' },
     ADDRESSES: { path: '/addresses' },
+    INPUTS: { path: '/inputs' },
 };
 
 const Routes = () => (
@@ -19,7 +20,7 @@ const Routes = () => (
         />
         <Route exact path={ROUTES.KEYS.path} component={Keys} />
         <Route exact path={ROUTES.ADDRESSES.path} component={Addresses} />
-        <Route path={`${ROUTES.ADDRESSES.path}/:address`} component={Address} />
+        <Route exact path={ROUTES.INPUTS.path} component={Inputs} />
     </Switch>
 );
 

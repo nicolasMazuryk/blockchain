@@ -3,6 +3,7 @@ const ethereumUtil = require('ethereumjs-util');
 const web3 = require('../../web3');
 const { toChecksumAddress } = require('../utils');
 const TX = require('./transaction');
+
 const Script = bcoin.Script;
 
 const KeyRing = bcoin.KeyRing;
@@ -12,6 +13,7 @@ const { network } = require('../../config');
 class Address {
 
   generateAddressBTC(publicKeys) {
+
     const old = this.generateBTCAddressOld(publicKeys);
     const keyRings = this.getKeyRings(publicKeys);
     const addresses = this.generateBTCAddresses(keyRings);
@@ -57,7 +59,7 @@ class Address {
   }
 
   async getBalanceETH(address) {
-    return web3.fromWei(+web3.eth.getBalance(address).toString())
+    return +web3.fromWei(+web3.eth.getBalance(address).toString())
   }
 }
 

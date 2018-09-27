@@ -1,0 +1,21 @@
+.addresses-button {
+  margin: 0  0 20px;
+}
+
+.address-text {
+  color: rgba(0,0,0, 0.6);
+  font-size: 15px;
+  margin: 0 25px 0;
+}
+
+.balance {
+  float: right;
+  font-size: 22px;
+  background-color: rgba(0,0,0, 0.15);
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.balance code {
+  font-weight: 700;
+}

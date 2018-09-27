@@ -27,6 +27,11 @@ class Forwarder {
     return forwarderContract.at(address);
   }
 
+  async getContractAddress() {
+    if (this.instance) return this.instance.address;
+    await this.deployContract();
+    return this.instance.address;
+  }
 }
 
 module.exports.Forwarder = new Forwarder();

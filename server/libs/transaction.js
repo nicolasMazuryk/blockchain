@@ -4,13 +4,17 @@ const reverse = require('buffer-reverse');
 const web3 = require('../../web3');
 const db = require('../db');
 const Electrum = require('../../electrumx');
+const { toChecksumAddress } = require('../utils');
 const { Output } = bcoin.primitives;
 
-const { walletSimpleJSON } = require('./forwarder');
+const { Forwarder, walletSimpleJSON } = require('./forwarder');
 
 class Transaction {
+  constructor() {
+    this.getInputsBTC = this.getInputsBTC.bind(this);
+  }
 
-  getUtxos(address) {
+  async getUtxos(address) {
     const output = Output.fromScript(address, 10000);
     const rawScript = output.script.toRaw();
 
@@ -39,14 +43,15 @@ class Transaction {
   async getInputsETH(address) {
     const nonce = await this.getNonceETH(address);
     const contract = walletSimpleJSON;
-    const balance = await web3.fromWei(+web3.eth.getBalance(address).toString());
-    const stored = await db.ETH.address.get();
+    const balance = await +web3.fromWei(+web3.eth.getBalance(address).toString());
+    const stored = await db.ETH.initial.get();
 
-    const addresses = stored.find(({ addresses }) =>
-        addresses.includes(address)
-    ) || {};
+    const fromAddress = Forwarder.instance.contract._eth.accounts[0];
 
-    return { nonce, contract, balance, ...addresses }
+    const { index } = stored.find(a => a.address === toChecksumAddress(fromAddress)) || {};
+    const addresses = stored.filter(a => a.index === index);
+
+    return { nonce, contract, balance, addresses }
   }
 
   async getNonceETH(address) {

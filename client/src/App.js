@@ -21,8 +21,9 @@ class App extends Component {
                 mode="horizontal"
                 style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="addresses"><Link to={ROUTES.ADDRESSES.path}>Addresses</Link></Menu.Item>
-              <Menu.Item key="keys"><Link to={ROUTES.KEYS.path}>Generate Keys</Link></Menu.Item>
+              <Menu.Item key="address"><Link to={ROUTES.ADDRESSES.path}>Address</Link></Menu.Item>
+              <Menu.Item key="inputs"><Link to={ROUTES.INPUTS.path}>Transaction</Link></Menu.Item>
+              <Menu.Item key="keys"><Link to={ROUTES.KEYS.path}>Keys</Link></Menu.Item>
             </Menu>
           </Header>
           <Content style={{ padding: '20px 50px', background: '#fff', minHeight: 280 }}>
